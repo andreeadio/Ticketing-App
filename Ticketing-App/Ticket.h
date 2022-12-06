@@ -7,13 +7,12 @@ using namespace std;
 class Ticket
 {
 private:
-	int price;
+	
 	const int UNIQUE_ID;
+	bool isVIP = false;
+	float ticketPrice=BASE_PRICE;
+	static float BASE_PRICE;
 
-public:
 
-	Ticket():UNIQUE_ID(0)
-	{
-		this->price = 0;
-	}
 };
+float Ticket::BASE_PRICE = 25;

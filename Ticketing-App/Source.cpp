@@ -2,6 +2,8 @@
 #include <string>
 #include <string.h>
 #include "Event.h"
+#include "Ticket.h"
+#include "Location.h"
 using namespace std;
 
 
@@ -45,4 +47,8 @@ int main()
 
 	Event e6("Movie", 4, January, 2024, "170:00");
 	cout << e6;
+
+	int rows[] = {5,10,15};
+	
+	//Location theater(300, 3, rows, 10);
 }
