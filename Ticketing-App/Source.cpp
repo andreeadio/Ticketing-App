@@ -8,6 +8,8 @@ using namespace std;
 
 int main()
 {
+	//testing
+	
 	Event e1("Concert Andra", 24, December, 2022, "19:00");
 	cout<<e1.getEventName();
 	
@@ -30,4 +32,17 @@ int main()
 	cout << endl;
 
 	cout << e2;
+
+	e1 = e2 = e3;
+	cout << endl;
+	cout << e1;
+
+	Event e5;
+	//cin >> e5;
+	cout << endl;
+	cout << e5;
+	cout << endl;
+
+	Event e6("Movie", 4, January, 2024, "170:00");
+	cout << e6;
 }
