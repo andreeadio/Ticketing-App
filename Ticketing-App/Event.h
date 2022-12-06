@@ -16,7 +16,7 @@ private:
 	int day;
 	month monthName;
 
-	char time[5];
+	char time[6];
 	type eventType;
 	bool isOutside;
 
@@ -25,11 +25,12 @@ private:
 
 	Event()
 	{
+		this->eventName = new char[strlen("unknown") + 1];
 		strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
 		this->year = CURRENT_YEAR;
 		this->day = 5;					//current day
 		this->monthName = month::December;//current month
-		strcpy_s(time, 5, "00:00");
+		strcpy_s(time, strlen("00:00") + 1, "00:00");
 		this->isOutside = false;
 		this->eventType = other;
 	}
@@ -61,12 +62,18 @@ public:
 		this->day = dd;
 		this->monthName = mm;
 
-		if (time != nullptr && strlen(time)==4)
+		if (time != nullptr && strlen(time)==5)
 		{
-			strcpy_s(this->time, 5, time);
+			strcpy_s(this->time, strlen(time)+1, time);
 		}
+		else
+		{
+			throw "Enter a valid time";
+			strcpy_s(this->time, strlen("00:00")+1, "00:00");
+		}
+
 		this->isOutside = false;
-		this->eventType = other;
+		this->eventType = type::other;
 
 	}
 	
@@ -98,9 +105,17 @@ public:
 	}
 
 
-	bool setIsOutside()
+	void setIsOutside()
 	{
 		this->isOutside = true;
+	}
+
+	string getIsOutside()
+	{
+		if (isOutside == true)
+			return "Outside";
+		else
+			return "Inside";
 	}
 
 	void setEventType(type eventType)
@@ -182,6 +197,91 @@ public:
 		}
 	}
 
+	void setYear(int yy)
+	{
+		if (yy >= CURRENT_YEAR && yy <= MAX_YEAR)
+		{
+			this->year = yy;
+		}
+		else
+		{
+			throw "Enter a valid year";
+		}
+	}
+
+	int getYear()
+	{
+		int copy;
+		copy = this->year;
+		return copy;
+	}
+
+	//copy constructor
+	Event(const Event& e)
+	{
+		if (e.eventName != nullptr)
+		{
+			this->eventName = new char[strlen(e.eventName) + 1];
+			strcpy_s(this->eventName, strlen(e.eventName) + 1, e.eventName);
+		}
+		else
+		{
+			this->eventName = new char[strlen("unknown") + 1];
+			strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
+		}
+
+		this->year = e.year;
+		this->day = e.day;
+		this->monthName = e.monthName;
+		this->eventType = e.eventType;
+		this->isOutside = e.isOutside;
+
+		if (e.time != nullptr && strlen(e.time) == 4)
+		{
+			strcpy_s(this->time, strlen(e.time) + 1, e.time);
+		}
+		else
+		{
+			strcpy_s(this->time, strlen("00:00") + 1, "00:00");
+		}
+
+	}
+
+	Event& operator=(const Event& e)
+	{
+		if (this != &e)
+		{
+			if (e.eventName != nullptr)
+			{
+				this->eventName = new char[strlen(e.eventName) + 1];
+				strcpy_s(this->eventName, strlen(e.eventName) + 1, e.eventName);
+			}
+			else
+			{
+				this->eventName = new char[strlen("unknown") + 1];
+				strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
+			}
+
+			this->year = e.year;
+			this->day = e.day;
+			this->monthName = e.monthName;
+			this->eventType = e.eventType;
+			this->isOutside = e.isOutside;
+
+			if (e.time != nullptr && strlen(e.time) == 4)
+			{
+				strcpy_s(this->time, strlen(e.time) + 1, e.time);
+			}
+			else
+			{
+				strcpy_s(this->time, strlen("00:00") + 1, "00:00");
+			}
+		}
+
+		return *this;
+	}
+
+	//destructor
 	~Event()
 	{
 		if (this->eventName != nullptr)
@@ -190,6 +290,40 @@ public:
 		}
 	}
 
+	friend ostream& operator<<(ostream& out, Event e);
+	friend istream& operator>>(istream& in, Event& e);
+
 };
 int Event::CURRENT_YEAR = 2022;
 int Event::MAX_YEAR = 2050;
+
+ostream& operator<<(ostream& out, Event e)
+{
+	out << "Event name: " << e.eventName << endl;
+	out << "Type: " << e.getEventType() << endl;
+	out << "Date: " << e.getMonth() << " " << e.day << "," << e.year << endl;
+	out << "Hour: " << e.time << endl;
+	out << "Where it takes place: " <<e.getIsOutside() << endl;
+	
+	return out;
+}
+
+//istream& operator>>(istream& in, Event& e)
+//{
+//	cout << "Event name: ";
+//	char buffer[100];
+//
+//
+//	in >> buffer;
+//	e.setEventName(buffer);
+//	cout << "Type: ";
+//	in >> e.eventType;
+//	cout << "Month: ";
+//	in >> e.monthName;
+//	cout << "Day: ";
+//	in >> e.day;
+//	cout << "Year: ";
+//	in >> e.year;
+//
+//	return in;
+//}
