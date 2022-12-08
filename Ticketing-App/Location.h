@@ -9,7 +9,7 @@ class Location
 private:
 	
 	int noSeatsPerRow=0;
-	char* zones = nullptr;
+	//char** zones = nullptr;
 	int* noOfRowsPerZone=nullptr;
 	int noZones = 0;
 
@@ -22,49 +22,34 @@ public:
 		if (noZones > 0 && noOfRowsPerZone != nullptr )
 		{
 			this->noZones = noZones;
-			this->noOfRowsPerZone = new int[noZones+1];
+			
+			this->noOfRowsPerZone = new int[this->noZones];
 			for (int i = 0; i < noZones; i++)
 			{
 				//to be revised
 				this->noOfRowsPerZone[i] = noOfRowsPerZone[i];
 			}
-			//this->nameZone();
+			this->noSeatsPerRow = noSeatsPerRow;
 		}
 		else
 		{
 			this->noOfRowsPerZone = nullptr;
 			this->noZones = 0;
-			char* zones = nullptr;
+			this->noSeatsPerRow = 0;
 		}
-
 		
-		this->noSeatsPerRow = noSeatsPerRow;
 	}
 
-
-	//create the zones
-	void nameZone()
+	void printNoOfRowsPerZone()
 	{
-	
-		if (noZones > 0)
+		for (int i = 0; i <this->noZones; i++)
 		{
-			this->zones = new char[noZones+1];
-		
-			for (int i = 0; i < noZones; i++)
-			{
-				this->zones[i] ='A'+i;
-			}
+			cout << this->noOfRowsPerZone[i]<<" ";
 		}
-		
 	}
 
-	char getZoneName(int i)
-	{
-		if (i != 0 && i <= noZones)
-		{
-			return this->zones[i - 1];
-		}
-	}
+
+
 
 	~Location()
 	{
@@ -74,11 +59,11 @@ public:
 			this->noOfRowsPerZone = nullptr;
 		}
 
-		if (zones != nullptr)
+		/*if (zones != nullptr)
 		{
 			delete[] zones;
 			this->zones = nullptr;
-		}
+		}*/
 	}
 };
 //UNFINISHED

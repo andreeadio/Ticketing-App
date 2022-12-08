@@ -19,6 +19,7 @@ int main()
 	
 	e1.setEventType(concert);
 	cout << e1.getEventType();
+	cout << e1.getTime();
 	cout << endl;
 
 	Event e2(e1);
@@ -26,29 +27,46 @@ int main()
 	cout << endl;
 
 	Event e3("Movie", 4, January, 2024, "17:00");
-	cout << e3.getMonth();
-	cout << endl;
+	cout << e3.getMonth()<<endl;
 
+
+	cout << endl<<"---Event 3: " << endl;
+	cout << e3;
+	cout << endl;
 	e2 = e3;
 	cout << e2.getYear();
 	cout << endl;
 
+	cout << endl << "---Event 2: " << endl;
 	cout << e2;
 
 	e1 = e2 = e3;
 	cout << endl;
+	cout << endl << "---Event 1: " << endl;
 	cout << e1;
 
 	Event e5;
 	//cin >> e5;
 	cout << endl;
-	cout << e5;
+	cout <<  endl << "---Event 5: " << endl << e5;
 	cout << endl;
 
-	Event e6("Movie", 4, January, 2024, "170:00");
+	
+	Event e6("Movie X", 4, January, 2024, "170:00");
+	cout << endl << "---Event 6: " << endl;
 	cout << e6;
 
 	int rows[] = {5,10,15};
 	
-	//Location theater(300, 3, rows, 10);
+	Location theater(300, 3, rows, 10);
+
+	cout << endl;
+	theater.printNoOfRowsPerZone();
+
+
+	Event e7("Movie X", 32, January, 2024, "21:00");
+	e7.setMonth(February);
+	cout << endl << "---Event 7: " << endl<<e7;
+	cin >> e5;
+	cout << endl << "---Event 5: " << endl << e5;
 }

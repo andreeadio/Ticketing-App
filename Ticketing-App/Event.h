@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include<regex>
 using namespace std;
 
 enum type{concert, movie, football_match, play, other };
@@ -16,7 +17,7 @@ private:
 	int day;
 	month monthName;
 
-	char time[6];
+	string time;
 	type eventType;
 	bool isOutside;
 
@@ -29,15 +30,15 @@ public:
 		this->eventName = new char[strlen("unknown") + 1];
 		strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
 		this->year = CURRENT_YEAR;
-		this->day = 5;					//current day
+		this->day = 1;				
 		this->monthName = month::December;//current month
-		strcpy_s(time, strlen("00:00") + 1, "00:00");
+		this->time = "00:00";
 		this->isOutside = false;
 		this->eventType = other;
 	}
 
 
-	Event(const char* eventName, int dd, month mm, int yy,const char* time)
+	Event(const char* eventName, int dd, month mm, int yy,string time)
 	{
 		
 		if (eventName != nullptr && strlen(eventName) > 1)
@@ -59,19 +60,28 @@ public:
 		{
 			throw "Enter a valid year";
 		}
-
-		this->day = dd;
+		
 		this->monthName = mm;
+		this->setDay(dd);
+		
 
-		if (time != nullptr && strlen(time)== 5)
+		if (time.length() == 5)
 		{
-			strcpy_s(this->time, strlen(time)+1, time);
+			if (regex_match(time, regex("[0-1][0-9]:[0-5][0-9]")) || regex_match(time, regex("2[0-3]:[0-5][0-9]")))
+			{
+				this->time = time;
+			}
+			else
+			{
+				this->time = "00:00";
+			}
+
 		}
 		else
 		{
-			cout<< "Enter a valid time";
-			strcpy_s(this->time, strlen("00:00")+1, "00:00");
+			this->time = "00:00";
 		}
+
 
 		this->isOutside = false;
 		this->eventType = type::other;
@@ -172,6 +182,39 @@ public:
 
 	}
 
+	void setDay(int day)
+	{
+		
+		if ((this->monthName <= 7 && this->monthName % 2 != 0) && (day >= 1 && day <= 31))
+		{
+			this->day = day;
+		}
+		else
+		if ((this->monthName >=8 && this->monthName % 2 == 0) && (day >= 1 && day <= 31))
+		{
+			this->day = day;
+		}
+		else
+		if ((this->monthName == 4 || this->monthName == 6 || this->monthName == 9|| this->monthName == 11) && (day >= 1 && day <= 30))
+		{
+			this->day = day;
+		}
+		else
+		if (this->monthName == 2 && (day >= 1 && day <= 29) && this->year % 4 == 0)
+		{
+			this->day = day;
+		}
+		else
+			this->day = 1;
+			
+	}
+
+	int getDay()
+	{
+		int copy = this->day;
+		return day;
+	}
+
 	void setMonthNumber(int m)
 	{
 		
@@ -214,7 +257,8 @@ public:
 			this->monthName = month::December;
 			break;
 		default:
-			cout << "Enter a valid month number";
+		{cout << "Enter a valid month number";
+		this->monthName = month::December; }
 			break;
 		}
 	}
@@ -270,7 +314,8 @@ public:
 		}
 		else
 		{
-			throw "Enter a valid year";
+			cout<< "Enter a valid year";
+			this->year = CURRENT_YEAR;
 		}
 	}
 
@@ -283,18 +328,31 @@ public:
 
 	//setter time
 
-	void setTime(const char* time)
+	void setTime(string time)
 	{
-		if (strlen(time) == 5)
+		if (time.length() == 5)
 		{
-			strcpy_s(this->time, strlen(time) + 1, time);
+			if (regex_match(time, regex("[0-1][0-9]:[0-5][0-9]")) || regex_match(time, regex("2[0-3]:[0-5][0-9]")))
+			{
+				this->time = time;
+			}
+			else
+			{
+				this->time = "00:00";
+			}
 		}
 		else
 		{
-			strcpy_s(this->time, strlen("00:00") + 1, "00:00");
+			this->time = "00:00";
 		}
 	}
 
+	string getTime()
+	{
+		string copy;
+		copy = this->time;
+		return copy;
+	}
 	//copy constructor
 	Event(const Event& e)
 	{
@@ -310,19 +368,11 @@ public:
 		}
 
 		this->year = e.year;
-		this->day = e.day;
 		this->monthName = e.monthName;
+		this->day = e.day;
 		this->eventType = e.eventType;
 		this->isOutside = e.isOutside;
-
-		if (e.time != nullptr && strlen(e.time) == 5)
-		{
-			strcpy_s(this->time, strlen(e.time) + 1, e.time);
-		}
-		else
-		{
-			strcpy_s(this->time, strlen("00:00") + 1, "00:00");
-		}
+		this->time = e.time;
 
 	}
 
@@ -348,15 +398,8 @@ public:
 			this->monthName = e.monthName;
 			this->eventType = e.eventType;
 			this->isOutside = e.isOutside;
+			this->time = e.time;
 
-			if (e.time != nullptr && strlen(e.time) == 5)
-			{
-				strcpy_s(this->time, strlen(e.time) + 1, e.time);
-			}
-			else
-			{
-				strcpy_s(this->time, strlen("00:00") + 1, "00:00");
-			}
 		}
 
 		return *this;
@@ -380,6 +423,7 @@ int Event::MAX_YEAR = 2050;
 
 void operator<<(ostream& out, Event e)
 {
+	out << endl;
 	out << "Event name: " << e.eventName << endl;
 	out << "Type: " << e.getEventType() << endl;
 	out << "Date: " << e.getMonth() << " " << e.day << "," << e.year << endl;
@@ -402,30 +446,28 @@ void operator>>(istream& in, Event& e)
 	}
 	e.setEventName(buffer.c_str());
 
-	cout << "\nDay: ";
-	in >> e.day;
+	cout << "\nYear: ";
+	int yy;
+	in >> yy;
+	e.setYear(yy);
 	
 	//enum month
 	int month;
-	cout << "\nEnter the Month's number :";
+	cout << "\nEnter the Month's number: ";
 	in >> month;
 	e.setMonthNumber(month);
 	
-	cout << "\nYear: ";
-	in >> e.year;
-
-	////time
-	//
-	//cout << "\nHour: ";
-	//string time;
-	//getline(in, time);
-	//
-	//e.setTime(time.c_str());
+	cout << "\nDay: ";
+	int dd;
+	in >> dd;
+	e.setDay(dd);
 	
 	//enum type 
+	
 	cout << "\nThe event type (concert,play,football match,movie,other): ";
 	string type;
-	in >> type;
+	//to be revised : it skips this part
+	getline(in, type);
 	e.setEventTypeString(type);
 
 	//bool isOutside
@@ -439,6 +481,11 @@ void operator>>(istream& in, Event& e)
 		e.isOutside = false;
 	}
 
+//time:
+	cout << "\nHour: ";
+	string time;
+	in>>time;
+	e.setTime(time);
 }
 
 //TODO
