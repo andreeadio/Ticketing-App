@@ -12,6 +12,7 @@ private:
 	bool isVIP = false;
 	float ticketPrice=BASE_PRICE;
 	static float BASE_PRICE;
+	//has an unique id
 
 
 };

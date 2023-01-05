@@ -2,43 +2,36 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include<regex>
+#include "Event.h"
+#include "Ticket.h"
+#include "Location.h"
+#include "Date.h"
 using namespace std;
 
 enum type{concert, movie, football_match, play, other };
-enum month{January=1, February, March, April, May, June, July, August, September, October, November, December};
 
 class Event
 {
 private:
 	char* eventName;
-	
-	int year;
-	int day;
-	month monthName;
-
-	string time;
+	//has a Date
+	//has a Location
 	type eventType;
 	bool isOutside;
-
-	static int CURRENT_YEAR;
-	static int MAX_YEAR;
+	Date date;
 
 public:
 	Event()
 	{
 		this->eventName = new char[strlen("unknown") + 1];
 		strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
-		this->year = CURRENT_YEAR;
-		this->day = 1;				
-		this->monthName = month::December;//current month
-		this->time = "00:00";
+
 		this->isOutside = false;
 		this->eventType = other;
 	}
 
 
-	Event(const char* eventName, int dd, month mm, int yy,string time)
+	Event(const char* eventName,Date date):date(date)
 	{
 		
 		if (eventName != nullptr && strlen(eventName) > 1)
@@ -51,41 +44,8 @@ public:
 			throw "Enter a valid event name";
 
 		}
-
-		if (yy >= CURRENT_YEAR && yy <= MAX_YEAR)
-		{
-			this->year = yy;
-		}
-		else
-		{
-			throw "Enter a valid year";
-		}
-		
-		this->monthName = mm;
-		this->setDay(dd);
-		
-
-		if (time.length() == 5)
-		{
-			if (regex_match(time, regex("[0-1][0-9]:[0-5][0-9]")) || regex_match(time, regex("2[0-3]:[0-5][0-9]")))
-			{
-				this->time = time;
-			}
-			else
-			{
-				this->time = "00:00";
-			}
-
-		}
-		else
-		{
-			this->time = "00:00";
-		}
-
-
 		this->isOutside = false;
 		this->eventType = type::other;
-
 	}
 	
 
@@ -173,186 +133,8 @@ public:
 		}
 	}
 
-	void setMonth(month mm)
-	{
-		if (mm >= 1 && mm <= 12)
-			this->monthName = mm;
-		else
-			cout << "Enter a valid month";
-
-	}
-
-	void setDay(int day)
-	{
-		
-		if ((this->monthName <= 7 && this->monthName % 2 != 0) && (day >= 1 && day <= 31))
-		{
-			this->day = day;
-		}
-		else
-		if ((this->monthName >=8 && this->monthName % 2 == 0) && (day >= 1 && day <= 31))
-		{
-			this->day = day;
-		}
-		else
-		if ((this->monthName == 4 || this->monthName == 6 || this->monthName == 9|| this->monthName == 11) && (day >= 1 && day <= 30))
-		{
-			this->day = day;
-		}
-		else
-		if (this->monthName == 2 && (day >= 1 && day <= 29) && this->year % 4 == 0)
-		{
-			this->day = day;
-		}
-		else
-			this->day = 1;
-			
-	}
-
-	int getDay()
-	{
-		int copy = this->day;
-		return day;
-	}
-
-	void setMonthNumber(int m)
-	{
-		
-		switch (m)
-		{
-		case 1:
-			this->monthName = month::January;
-			break;
-		case 2:
-			this->monthName = month::February;
-			break;
-		case 3:
-			this->monthName = month::March;
-			break;
-		case 4:
-			this->monthName = month::April;
-			break;
-		case 5:
-			this->monthName = month::May;
-			break;
-		case 6:
-			this->monthName = month::June;
-			break;
-		case 7:
-			this->monthName = month::July;
-			break;
-		case 8:
-			this->monthName = month::August;
-			break;
-		case 9:
-			this->monthName = month::September;
-			break;
-		case 10:
-			this->monthName = month::October;
-			break;
-		case 11:
-			this->monthName = month::November;
-			break;
-		case 12:
-			this->monthName = month::December;
-			break;
-		default:
-		{cout << "Enter a valid month number";
-		this->monthName = month::December; }
-			break;
-		}
-	}
-
-	string getMonth()
-	{
-		switch (this->monthName)
-		{
-			case January:
-				return "January";
-				break;
-			case February:
-				return "February";
-				break;
-			case March:
-				return "March";
-				break;
-			case April:
-				return "April";
-				break;
-			case May:
-				return "May";
-				break;
-			case June:
-				return "June";
-				break;
-			case July:
-				return "July";
-				break;
-			case August:
-				return "August";
-				break;
-			case September:
-				return "September";
-				break;
-			case October:
-				return "October";
-				break;
-			case November:
-				return "November";
-				break;
-			case December:
-				return "December";
-				break;
-		}
-	}
-
-	void setYear(int yy)
-	{
-		if (yy >= CURRENT_YEAR && yy <= MAX_YEAR)
-		{
-			this->year = yy;
-		}
-		else
-		{
-			cout<< "Enter a valid year";
-			this->year = CURRENT_YEAR;
-		}
-	}
-
-	int getYear()
-	{
-		int copy;
-		copy = this->year;
-		return copy;
-	}
-
-	//setter time
-
-	void setTime(string time)
-	{
-		if (time.length() == 5)
-		{
-			if (regex_match(time, regex("[0-1][0-9]:[0-5][0-9]")) || regex_match(time, regex("2[0-3]:[0-5][0-9]")))
-			{
-				this->time = time;
-			}
-			else
-			{
-				this->time = "00:00";
-			}
-		}
-		else
-		{
-			this->time = "00:00";
-		}
-	}
-
-	string getTime()
-	{
-		string copy;
-		copy = this->time;
-		return copy;
-	}
+	//TODO set and get for date
+	
 	//copy constructor
 	Event(const Event& e)
 	{
@@ -366,13 +148,12 @@ public:
 			this->eventName = new char[strlen("unknown") + 1];
 			strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
 		}
-
-		this->year = e.year;
-		this->monthName = e.monthName;
-		this->day = e.day;
+		
 		this->eventType = e.eventType;
 		this->isOutside = e.isOutside;
-		this->time = e.time;
+
+		//should copy the date
+		this->date = e.date;  //see if works with the default copyctor 
 
 	}
 
@@ -393,13 +174,11 @@ public:
 				strcpy_s(this->eventName, strlen("unknown") + 1, "unknown");
 			}
 
-			this->year = e.year;
-			this->day = e.day;
-			this->monthName = e.monthName;
 			this->eventType = e.eventType;
 			this->isOutside = e.isOutside;
-			this->time = e.time;
-
+			
+			//should copy the date
+			this->date = e.date;
 		}
 
 		return *this;
@@ -413,23 +192,21 @@ public:
 			delete[] this->eventName;
 		}
 	}
+	
 
+	// << and >> operators
 	friend void operator<<(ostream& out, Event e);
 	friend void operator>>(istream& in, Event& e);
-
 };
-int Event::CURRENT_YEAR = 2022;
-int Event::MAX_YEAR = 2050;
+
 
 void operator<<(ostream& out, Event e)
 {
 	out << endl;
 	out << "Event name: " << e.eventName << endl;
+	out << e.date;
 	out << "Type: " << e.getEventType() << endl;
-	out << "Date: " << e.getMonth() << " " << e.day << "," << e.year << endl;
-	out << "Hour: " << e.time << endl;
 	out << "Where it takes place: " <<e.getIsOutside() << endl;
-	
 	
 }
 
@@ -437,41 +214,29 @@ void operator>>(istream& in, Event& e)
 {
 	//event name
 	cout << "\nEvent name: ";
-	string buffer;
-	getline(in, buffer);
+	char buffer[100];
+	in >> ws;
+	in.getline(buffer, 99);
+
 	if (e.eventName != nullptr)
 	{
 		delete[] e.eventName;
 		e.eventName = nullptr;
 	}
-	e.setEventName(buffer.c_str());
+	e.setEventName(buffer);
+	
+	in >> e.date;
 
-	cout << "\nYear: ";
-	int yy;
-	in >> yy;
-	e.setYear(yy);
-	
-	//enum month
-	int month;
-	cout << "\nEnter the Month's number: ";
-	in >> month;
-	e.setMonthNumber(month);
-	
-	cout << "\nDay: ";
-	int dd;
-	in >> dd;
-	e.setDay(dd);
-	
 	//enum type 
-	
 	cout << "\nThe event type (concert,play,football match,movie,other): ";
-	string type;
-	//to be revised : it skips this part
-	getline(in, type);
+	char type[100];
+	in >> ws;
+	in.getline(type, 99);
 	e.setEventTypeString(type);
 
 	//bool isOutside
 	cout << endl << "\nIs outside? (y/n):";
+	in >> ws;
 	string confirmation;
 	in >> confirmation;
 	if (confirmation == "y") {
@@ -480,14 +245,5 @@ void operator>>(istream& in, Event& e)
 	else {
 		e.isOutside = false;
 	}
-
-//time:
-	cout << "\nHour: ";
-	string time;
-	in>>time;
-	e.setTime(time);
 }
 
-//TODO
-//validations for date and time
-//set and get for time
