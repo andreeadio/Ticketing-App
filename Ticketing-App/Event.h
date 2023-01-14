@@ -47,14 +47,15 @@ public:
 		this->isOutside = false;
 		this->eventType = type::other;
 	}
-	
 
-	void setEventName(const char* eventName)
+
+	void setEventName(const char* name)
 	{
-		if (eventName != nullptr && strlen(eventName) > 1)
+		if (name != nullptr && strlen(name) > 1)
 		{
-			this->eventName = new char[strlen(eventName) + 1];
-			strcpy_s(this->eventName, strlen(eventName) + 1, eventName);
+			delete[] this->eventName;
+			this->eventName = new char[strlen(name) + 1];
+			strcpy_s(this->eventName, strlen(name) + 1, name);
 		}
 		else
 		{
@@ -193,6 +194,12 @@ public:
 		}
 	}
 	
+
+	//negation operator
+	bool operator!()
+	{
+		return !isOutside;
+	}
 
 	// << and >> operators
 	friend void operator<<(ostream& out, Event e);

@@ -228,10 +228,28 @@ public:
 		return copy;
 	}
 
+	static void setCurrentYear(int year) {
+		Date:: CURRENT_YEAR = year;
+	}
+
+	static int getCurrentYear() {
+		return CURRENT_YEAR;
+	}
+
+	static void setMaxYear(int year) {
+		Date::MAX_YEAR = year;
+	}
+
+	static int getMaxYear() {
+		return MAX_YEAR;
+	}
+
 	// << and >> operators
 	friend ostream& operator<<(ostream&, Date );
 	friend istream& operator>>(istream&, Date&);
 };
+int Date::CURRENT_YEAR = 2023;
+int Date::MAX_YEAR = 2050;
 
 ostream& operator<<(ostream& out, Date date)
 {
@@ -273,5 +291,4 @@ istream& operator>>(istream& in, Date& date)
 	return in;
 }
 
-int Date::CURRENT_YEAR = 2023;
-int Date::MAX_YEAR = 2050;
+

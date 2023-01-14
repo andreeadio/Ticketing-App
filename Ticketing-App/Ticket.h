@@ -8,8 +8,8 @@ class Ticket
 {
 private:
 	
-	const int UNIQUE_ID;
-	bool isVIP = false;
+	int UNIQUE_ID;
+	//bool isVIP = false;
 	float ticketPrice=BASE_PRICE;
 	static float BASE_PRICE;
 	//has an unique id

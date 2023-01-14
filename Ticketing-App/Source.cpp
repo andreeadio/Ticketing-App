@@ -5,6 +5,7 @@
 #include "Ticket.h"
 #include "Location.h"
 #include "Date.h"
+#include "IDGenerator.h"
 using namespace std;
 
 
@@ -83,6 +84,21 @@ int main()
 	Event e("Concert Andra", date1);
 	cout << e;
 	Event e1;
-	cin >> e1;
-	cout << e1;
+	/*cin >> e1;
+	cout << e1;*/
+
+	//const char* words[] = { "aaa", "bbbb", "ccccc", "dddddd" };
+	 const char* zones[2] = {"Stand 1", "Stand 2"};
+	
+
+	Location stadium(2,zones,12,12);
+	stadium.printZones();
+	cout << endl;
+	IdGenerator generator;
+	int id = generator.generateId();
+	cout << id << endl;
+	int id1 = generator.generateId();
+	cout << id1 << endl;
 }
+
+
