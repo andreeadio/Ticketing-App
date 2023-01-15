@@ -119,7 +119,11 @@
 //	Event e1;
 //	/*cin >> e1;
 //	cout << e1;*/
-//
+// 
+// 
+//	 /*Ticket t(football,1,2,10);
+//		t.serialize();
+//		t.deserialize(); */
 //
 //}
 

@@ -71,15 +71,93 @@ void menu(int option, Event e1,Event e2,Event e3)
 	{
 		cout <<endl<< "Here are the events: ";
 		menu(1, e1, e2, e3);
-		break;
 
 		cout << endl << "Choose for which event you what to buy a ticket: ";
+		cout << endl << "Write the number(1->3): "<<endl;
 		cin >> option;
+		switch (option)
+		{
+			case 1:
+			{
+				cout << "Row: ";
+				int r;
+				cin >> r;
+				cout << "Seat: ";
+				int s;
+				cin >> s;
+				Ticket t1(e1, 0, r, s);
+				t1.serialize();
 
+				cout << "\nTicket created! ";
+				cout << endl << "***********************************" << endl;
+				cout << t1;
+				cout << endl << "***********************************" << endl;
+				cout << endl << "ATTENTION! Save the ticket id in order to validate the ticket" << endl;
+
+				break;
+			
+			}
+			case 2:
+			{
+				cout << "Row: ";
+				int r;
+				cin >> r;
+				cout << "Seat: ";
+				int s;
+				cin >> s;
+				Ticket t2(e2, 0, r, s);
+				t2.serialize();
+
+				cout << "\nTicket created! ";
+				cout << endl << "***********************************" << endl;
+				cout << t2;
+				cout << endl << "***********************************" << endl;
+				cout << endl << "ATTENTION! Save the ticket id in order to validate the ticket" << endl;
+				break;
+			}
+			case 3:
+			{
+
+				cout << "Row: ";
+				int r;
+				cin >> r;
+				cout << "Seat: ";
+				int s;
+				cin >> s;
+				Ticket t3(e3, 0, r, s);
+				t3.serialize();
+
+				cout << "\nTicket created! " ;
+				cout << endl << "***********************************"<<endl;
+				cout << t3;
+				cout << endl << "***********************************"<<endl;
+				cout << endl << "ATTENTION! Save the ticket id in order to validate the ticket" << endl;
+				break;
+			}
+			default:
+				cout << endl << "\nChoose a valid event number!";
+				menu(2, e1, e2, e3);
+				break;
+		}
+		
+		
+		
+		break;
 	}
 	case 3:
 	{
+		
+		cout << "\nValidate the ticket : " << endl;
+		cout << "\nWrite the id of the ticket: "<<endl;
+		int i;
+		cin >> i;
+		if (Ticket::validate(i) == 0)
+			cout << "\nThe ticket is valid"<<endl;
+		else
+			cout << "\nThe ticket is not valid"<<endl;
 
+		break;
+		
 	}
 	case 4:
 	{
@@ -141,8 +219,6 @@ int main()
 		menu(option, football, movie, play);
 	}
 
-	//Ticket t;
-
+	
 }
 
-// write the events in a file and the process?

@@ -30,7 +30,7 @@ public:
 	}
 
 	//write the id in a file 
-	void manageId(int id)
+	virtual void manageId()
 	{
 		ofstream idFile("idFile.txt", ios::out | ios::app);
 		if (idFile.is_open())
@@ -39,7 +39,7 @@ public:
 	}
 
 	//validate the id
-	virtual bool validateId()
+	virtual bool validateId(int id)
 	{
 		ifstream idFile("idFile.txt", ios::in);
 		bool ok=1;
