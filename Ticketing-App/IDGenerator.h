@@ -11,9 +11,13 @@ using namespace std;
 
 class IdGenerator
 {
-
+	int id;
 
 public:
+	IdGenerator()
+	{
+		id = 0;
+	}
 	//create random numbers of 
 	int generateId()
 	{
@@ -35,7 +39,7 @@ public:
 	}
 
 	//validate the id
-	bool validateId(int id)
+	virtual bool validateId()
 	{
 		ifstream idFile("idFile.txt", ios::in);
 		bool ok=1;
@@ -53,5 +57,10 @@ public:
 			idFile.close();
 		}
 		return ok;
+	}
+
+	~IdGenerator()
+	{
+
 	}
 };
