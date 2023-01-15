@@ -89,6 +89,8 @@ public:
 				this->noZones = 0;
 			}
 		}
+
+		return *this;
 	}
 
 	void setZones(int noZones, const char** zones)
@@ -217,20 +219,24 @@ public:
 };
 ostream& operator<<(ostream& out, Location loc)
 {
-	out << "\nNr zone: " << loc.noZones << endl;
-	out << "Nume zone: ";
+	out << "\nNo zones: " << loc.noZones << endl;
+	out << "\nZone names: ";
 	for (int i = 0; i < loc.noZones; i++)
 	{
 		out << endl << loc.zones[i] ;
 	}
 	out << endl;
 
+	out << "\nNo of rows per zone: " << loc.NO_ROWS_PER_ZONE;
+	out << "\nNo of seats per row: " << loc.NO_SEATS_PER_ROW;
+	out << "\nTotal no of seats: " << loc.TotalNoSeats();
+
 	return out;
 }
 istream& operator>>(istream& in, Location& loc)
 {
 	
-	cout << "Numar zone: ";
+	cout << "\nNo zones: ";
 	int no;
 	in >> no;
 	loc.noZones = no;
@@ -242,7 +248,7 @@ istream& operator>>(istream& in, Location& loc)
 	}
 
 	loc.zones = new char*[loc.noZones];
-	cout << "Nume zone: " << endl;
+	cout << "\nZone names: " << endl;
 	for (int i = 0; i < loc.noZones; i++)
 	{
 		char buffer[100];

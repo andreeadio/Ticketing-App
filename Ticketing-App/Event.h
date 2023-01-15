@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "Ticket.h"
+
 #include "Location.h"
 #include "Date.h"
 using namespace std;
@@ -13,11 +13,10 @@ class Event
 {
 private:
 	char* eventName;
-	//has a Date
-	//has a Location
+	Location loc;  //has a location
 	type eventType;
 	bool isOutside;
-	Date date;
+	Date date;  //has a date
 
 public:
 	Event()
@@ -30,7 +29,7 @@ public:
 	}
 
 
-	Event(const char* eventName,Date date):date(date)
+	Event(const char* eventName,Date date,Location loc):date(date),loc(loc)
 	{
 		
 		if (eventName != nullptr && strlen(eventName) > 1)
@@ -133,10 +132,10 @@ public:
 		}
 	}
 
-	//TODO set and get for date
+	
 	
 	//copy constructor
-	Event(const Event& e)
+	Event(const Event& e):date(e.date),loc(e.loc)
 	{
 		if (e.eventName != nullptr)
 		{
@@ -153,8 +152,8 @@ public:
 		this->isOutside = e.isOutside;
 
 		//should copy the date
-		this->date = e.date;  //see if works with the default copyctor 
-
+		//this->date = e.date;  //see if works with the default copyctor 
+		//this->loc = e.loc;
 	}
 
 	Event& operator=(const Event& e)
@@ -179,6 +178,7 @@ public:
 			
 			//should copy the date
 			this->date = e.date;
+			this->loc = e.loc;
 		}
 
 		return *this;
@@ -213,7 +213,7 @@ ostream& operator<<(ostream& out, Event e)
 	out << e.date;
 	out << "Type: " << e.getEventType() << endl;
 	out << "Where it takes place: " <<e.getIsOutside() << endl;
-	
+	out << e.loc;
 	return out;
 }
 
@@ -233,6 +233,7 @@ istream& operator>>(istream& in, Event& e)
 	e.setEventName(buffer);
 	
 	in >> e.date;
+	in >> e.loc;
 
 	//enum type 
 	cout << "\nThe event type (concert,play,football match,movie,other): ";

@@ -83,13 +83,8 @@ int main()
 	cin >> d;
 	cout << d;*/
 
-	Event e("Concert Andra", date1);
-	cout << e;
-	Event e1;
-	/*cin >> e1;
-	cout << e1;*/
 
-	//const char* words[] = { "aaa", "bbbb", "ccccc", "dddddd" };
+	
 	const char* zones[2] = { "Stand 1", "Stand 2" };
 
 
@@ -99,6 +94,7 @@ int main()
 	cout << endl << stadium.TotalNoSeats();
 	cout << endl << stadium.getZones();
 	cout << endl;
+	cout << stadium;
 
 
 	IdGenerator generator;
@@ -113,9 +109,16 @@ int main()
 	Ticket t;
 	cout << endl << generator.validateId(id2);
 
-	Location loc;
+	/*Location loc;
 	cin >> loc;
-	cout << loc;
+	cout << loc;*/
+
+	Event e("Football Match", date1, stadium);
+	cout << e;
+	Event e1;
+	/*cin >> e1;
+	cout << e1;*/
+
 
 }
 
