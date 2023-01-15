@@ -75,6 +75,8 @@ using namespace std;
 
 int main()
 {
+	
+	//testing 
 	Date date1(2023, February, 23, "12:00");
 	cout << date1;
 	/*Date d;
@@ -88,17 +90,33 @@ int main()
 	cout << e1;*/
 
 	//const char* words[] = { "aaa", "bbbb", "ccccc", "dddddd" };
-	 const char* zones[2] = {"Stand 1", "Stand 2"};
-	
+	const char* zones[2] = { "Stand 1", "Stand 2" };
 
-	Location stadium(2,zones,12,12);
+
+	Location stadium(2, zones, 12, 12);
 	stadium.printZones();
+	cout << stadium.getZone(1);
+	cout << endl << stadium.TotalNoSeats();
+	cout << endl << stadium.getZones();
 	cout << endl;
+
+
 	IdGenerator generator;
 	int id = generator.generateId();
 	cout << id << endl;
 	int id1 = generator.generateId();
 	cout << id1 << endl;
+	int id2 = generator.generateId();
+	cout << id2 << endl;
+	/*generator.manageId(id2);
+	generator.manageId(id1);*/
+	Ticket t;
+	cout << endl << generator.validateId(id2);
+
+	Location loc;
+	cin >> loc;
+	cout << loc;
+
 }
 
 

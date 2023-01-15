@@ -79,6 +79,11 @@ public:
 						this->day = day;
 					}
 					else
+						if (this->monthName == 2 && (day >= 1 && day <= 28) && this->year % 4 != 0)
+						{
+							this->day = day;
+						}
+						else
 						this->day = 1;
 
 	}
@@ -244,12 +249,138 @@ public:
 		return MAX_YEAR;
 	}
 
+	//operators
+
+	Date operator++()
+	{
+
+		if (monthName <= 7 && monthName % 2 != 0)
+		{
+			if (day + 1 <= 31)
+				day ++;
+
+		}
+		else
+			if (monthName >= 8 && monthName % 2 == 0)
+			{
+				if (day + 1 <= 31)
+					day++;
+
+			}
+			else
+				if (monthName == 4 || monthName == 6 || monthName == 9 || monthName == 11)
+				{
+					if (day + 1 > 30)
+						day++;
+
+				}
+				else
+					if (monthName == 2 && year % 4 == 0)
+					{
+						if (day + 1 <= 29)
+							day++;
+					}
+					else
+						if (monthName == 2 && year % 4 != 0)
+						{
+							if (day + 1 <= 28)
+							
+								day++;
+						}
+
+		return *this;
+	}
+
+	Date operator+(int i)
+	{
+		Date copy = *this;
+		
+		if (copy.monthName <= 7 && copy.monthName % 2 != 0) 
+		{
+			if (copy.day + i <= 31)
+				copy.day = copy.day + i;
+
+		}
+		else
+			if (copy.monthName >= 8 && copy.monthName % 2 == 0) 
+			{
+				if (copy.day + i <= 31)
+					copy.day = copy.day + i;
+
+			}
+			else
+				if (copy.monthName == 4 || copy.monthName == 6 || copy.monthName == 9 || copy.monthName == 11) 
+				{
+					if (copy.day + i <= 30)
+						copy.day = copy.day + i;
+
+				}
+				else
+					if (copy.monthName == 2 && copy.year % 4 == 0)
+					{
+						if (copy.day + i <= 29)
+							copy.day = copy.day + i;
+					}
+					else
+						if (copy.monthName == 2 && copy.year % 4 != 0)
+						{
+							if (copy.day + i <= 28)
+								
+								copy.day = copy.day + i;
+						}
+
+		return copy;
+	}
+
+
 	// << and >> operators
 	friend ostream& operator<<(ostream&, Date );
 	friend istream& operator>>(istream&, Date&);
+	friend Date operator+(int i, Date copy);
 };
 int Date::CURRENT_YEAR = 2023;
 int Date::MAX_YEAR = 2050;
+
+Date operator+(int i, Date copy)
+{
+	if (copy.monthName <= 7 && copy.monthName % 2 != 0)
+	{
+		if (copy.day + i <= 31)
+
+			copy.day = copy.day + i;
+
+	}
+	else
+		if (copy.monthName >= 8 && copy.monthName % 2 == 0)
+		{
+			if (copy.day + i <= 31)
+				copy.day = copy.day + i;
+
+		}
+		else
+			if (copy.monthName == 4 || copy.monthName == 6 || copy.monthName == 9 || copy.monthName == 11)
+			{
+				if (copy.day + i <= 30)
+
+					copy.day = copy.day + i;
+
+			}
+			else
+				if (copy.monthName == 2 && copy.year % 4 == 0)
+				{
+					if (copy.day + i <= 29)
+						copy.day = copy.day + i;
+				}
+				else
+					if (copy.monthName == 2 && copy.year % 4 != 0)
+					{
+						if (copy.day + i <= 28)
+
+							copy.day = copy.day + i;
+					}
+
+	return copy;
+}
 
 ostream& operator<<(ostream& out, Date date)
 {

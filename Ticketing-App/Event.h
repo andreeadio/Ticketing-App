@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "Event.h"
 #include "Ticket.h"
 #include "Location.h"
 #include "Date.h"
@@ -202,12 +201,12 @@ public:
 	}
 
 	// << and >> operators
-	friend void operator<<(ostream& out, Event e);
-	friend void operator>>(istream& in, Event& e);
+	friend ostream& operator<<(ostream& out, Event e);
+	friend istream& operator>>(istream& in, Event& e);
 };
 
 
-void operator<<(ostream& out, Event e)
+ostream& operator<<(ostream& out, Event e)
 {
 	out << endl;
 	out << "Event name: " << e.eventName << endl;
@@ -215,9 +214,10 @@ void operator<<(ostream& out, Event e)
 	out << "Type: " << e.getEventType() << endl;
 	out << "Where it takes place: " <<e.getIsOutside() << endl;
 	
+	return out;
 }
 
-void operator>>(istream& in, Event& e)
+istream& operator>>(istream& in, Event& e)
 {
 	//event name
 	cout << "\nEvent name: ";
@@ -252,5 +252,7 @@ void operator>>(istream& in, Event& e)
 	else {
 		e.isOutside = false;
 	}
+
+	return in;
 }
 

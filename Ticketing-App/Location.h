@@ -111,6 +111,7 @@ public:
 		if (zones != nullptr && noZones >0) {
 			char** copy = new char*[noZones];
 			for (int i = 0; i < noZones; i++) {
+				copy[i] = new char[strlen(zones[i]) + 1];
 				strcpy_s(copy[i],strlen(zones[i])+1,zones[i]);
 			}
 			return copy;
@@ -135,16 +136,6 @@ public:
 		}
 		else
 			cout << "The location has no zone";
-	}
-
-	//indexing operator
-	char* operator[](int index)
-	{
-		if (index > 0 && index < noZones)
-		{
-			return zones[index];
-		}
-		
 	}
 	
 
@@ -172,17 +163,27 @@ public:
 		}	
 	}*/
 	
-	int TotalNoSeats(unsigned int noZones, unsigned int noRows, int noSeats)
+	//int TotalNoSeats(unsigned int noZones, unsigned int noRows, int noSeats)
+	//{
+	//	if (noZones != 0 && noRows != 0 && noSeats != 0)
+	//	{
+	//		int totalSeats = noZones * noRows * noSeats;
+	//		return totalSeats;
+	//	}
+	//	else
+	//		return 0;
+	//}
+
+	int TotalNoSeats()
 	{
-		if (noZones != 0 && noRows != 0 && noSeats != 0)
+		if (noZones != 0 && NO_ROWS_PER_ZONE != 0 && NO_SEATS_PER_ROW != 0)
 		{
-			int totalSeats = noZones * noRows * noSeats;
+			int totalSeats = noZones * NO_ROWS_PER_ZONE * NO_SEATS_PER_ROW;
 			return totalSeats;
 		}
 		else
 			return 0;
 	}
-
 
 	~Location()
 	{
@@ -193,17 +194,34 @@ public:
 		}
 	}
 
+
+
+	//indexing operator
+	char* operator[](int index)
+	{
+		if (index > 0 && index < noZones)
+		{
+			return zones[index];
+		}
+
+	}
+
+	explicit operator int()
+	{
+		return noZones * NO_ROWS_PER_ZONE * NO_SEATS_PER_ROW;
+	}
+
 	friend ostream& operator<<(ostream&, Location);
 	friend istream& operator>>(istream&, Location&);
 
 };
 ostream& operator<<(ostream& out, Location loc)
 {
-	out << "Nr zone: " << loc.noZones << endl;
+	out << "\nNr zone: " << loc.noZones << endl;
 	out << "Nume zone: ";
 	for (int i = 0; i < loc.noZones; i++)
 	{
-		out << loc.zones[i] << " ";
+		out << endl << loc.zones[i] ;
 	}
 	out << endl;
 
@@ -213,7 +231,9 @@ istream& operator>>(istream& in, Location& loc)
 {
 	
 	cout << "Numar zone: ";
-	in >> loc.noZones;
+	int no;
+	in >> no;
+	loc.noZones = no;
 
 	if (loc.zones!= nullptr)
 	{
@@ -222,14 +242,16 @@ istream& operator>>(istream& in, Location& loc)
 	}
 
 	loc.zones = new char*[loc.noZones];
-	cout << "Nume zone: ";
-	/*for (int i = 0; i < loc.noZones; i++)
+	cout << "Nume zone: " << endl;
+	for (int i = 0; i < loc.noZones; i++)
 	{
-		
-		in >> loc.zones[i];
-	}*/
+		char buffer[100];
+		in >> ws;
+		in.getline(buffer, 99);
+		loc.zones[i] = new char[strlen(buffer) + 1];
+		strcpy_s(loc.zones[i], strlen(buffer) + 1, buffer);
+	}
 
 	return in;
 }
 
-//UNFINISHED
